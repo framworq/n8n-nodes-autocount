@@ -1,0 +1,56 @@
+{
+	"name": "AutoCount: order to sales invoice",
+	"nodes": [
+		{
+			"parameters": {
+				"content": "## Order → AutoCount sales invoice\n\nPOST an order to the webhook:\n```json\n{\n  \"customerCode\": \"300-A001\",\n  \"orderNo\": \"WEB-1001\",\n  \"items\": [\n    { \"sku\": \"P-001\", \"name\": \"Widget\", \"qty\": 2, \"price\": 49.9 }\n  ]\n}\n```\nThe webhook uses **Header Auth**: create a Header Auth credential (e.g. name `X-Api-Key`, a long random value) and send that header with every request. Never leave an order webhook open.\n\nSet the account `500-0000` to your sales account.",
+				"height": 420,
+				"width": 420
+			},
+			"id": "4f0d0a52-6c8e-4c58-9d44-2a1f6e2d0c01",
+			"name": "Sticky Note",
+			"type": "n8n-nodes-base.stickyNote",
+			"typeVersion": 1,
+			"position": [-480, -160]
+		},
+		{
+			"parameters": {
+				"httpMethod": "POST",
+				"path": "autocount-order",
+				"authentication": "headerAuth",
+				"options": {}
+			},
+			"id": "0c7a5a0e-2a8b-4a4e-9d8e-1a3c5e7f9b11",
+			"name": "Order received",
+			"type": "n8n-nodes-base.webhook",
+			"typeVersion": 2,
+			"position": [0, 0],
+			"webhookId": "6a1d2f3e-4b5c-4d7e-8f90-a1b2c3d4e5f6"
+		},
+		{
+			"parameters": {
+				"resource": "invoice",
+				"operation": "create",
+				"partyCode": "={{ $json.body.customerCode }}",
+				"linesMode": "json",
+				"linesJson": "={{ JSON.stringify($json.body.items.map(item => ({ accNo: '500-0000', productCode: item.sku, description: item.name, qty: item.qty, unitPrice: item.price }))) }}",
+				"additionalFields": {
+					"ref": "={{ $json.body.orderNo }}",
+					"description": "Online order"
+				},
+				"options": {}
+			},
+			"id": "8d2e4f6a-1b3c-4d5e-9f70-b2c4d6e8fa21",
+			"name": "Create sales invoice",
+			"type": "n8n-nodes-autocount.autoCount",
+			"typeVersion": 1,
+			"position": [240, 0]
+		}
+	],
+	"connections": {
+		"Order received": {
+			"main": [[{ "node": "Create sales invoice", "type": "main", "index": 0 }]]
+		}
+	},
+	"settings": { "executionOrder": "v1" }
+}

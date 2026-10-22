@@ -1,0 +1,55 @@
+{
+	"name": "AutoCount: new sales invoice summary",
+	"nodes": [
+		{
+			"parameters": {
+				"content": "## New AutoCount invoices\n\nPolls AutoCount every 5 minutes and builds a one-line summary for each new sales invoice. Connect the summary to Slack, Telegram, email or a Google Sheet.",
+				"height": 220,
+				"width": 380
+			},
+			"id": "2b4d6f80-1a2b-4c3d-8e9f-0a1b2c3d4e01",
+			"name": "Sticky Note",
+			"type": "n8n-nodes-base.stickyNote",
+			"typeVersion": 1,
+			"position": [-460, -140]
+		},
+		{
+			"parameters": {
+				"pollTimes": { "item": [{ "mode": "everyX", "value": 5, "unit": "minutes" }] },
+				"documentType": "invoice",
+				"event": "created"
+			},
+			"id": "5e7a9c1b-3d5f-4a6b-8c9d-1e2f3a4b5c61",
+			"name": "New sales invoice",
+			"type": "n8n-nodes-autocount.autoCountTrigger",
+			"typeVersion": 1,
+			"position": [0, 0]
+		},
+		{
+			"parameters": {
+				"assignments": {
+					"assignments": [
+						{
+							"id": "c1d2e3f4-a5b6-4c7d-8e9f-0a1b2c3d4e71",
+							"name": "summary",
+							"value": "=New invoice {{ $json.docNo }} for {{ $json.debtorName }}: {{ $json.currencyCode }} {{ $json.finalTotal.toFixed(2) }} (due {{ $json.dueDate.slice(0, 10) }})",
+							"type": "string"
+						}
+					]
+				},
+				"options": {}
+			},
+			"id": "9a8b7c6d-5e4f-4a3b-9c2d-1e0f9a8b7c81",
+			"name": "Summary",
+			"type": "n8n-nodes-base.set",
+			"typeVersion": 3.4,
+			"position": [240, 0]
+		}
+	],
+	"connections": {
+		"New sales invoice": {
+			"main": [[{ "node": "Summary", "type": "main", "index": 0 }]]
+		}
+	},
+	"settings": { "executionOrder": "v1" }
+}

@@ -1,0 +1,18 @@
+{
+	"node": "n8n-nodes-autocount.autoCount",
+	"nodeVersion": "1.0",
+	"codexVersion": "1.0",
+	"categories": ["Finance & Accounting"],
+	"resources": {
+		"credentialDocumentation": [
+			{
+				"url": "https://github.com/framworq/n8n-nodes-autocount?tab=readme-ov-file#credentials"
+			}
+		],
+		"primaryDocumentation": [
+			{
+				"url": "https://github.com/framworq/n8n-nodes-autocount?tab=readme-ov-file"
+			}
+		]
+	}
+}
