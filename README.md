@@ -78,6 +78,7 @@ The AutoCount API has a few quirks. The node handles them so your workflows don'
 Example workflows are in [`examples/`](examples). Import them with **Workflows → Import from File**.
 
 - **[Order to invoice](examples/order-to-invoice.json)**: an authenticated webhook receives an order and the node creates the sales invoice, with lines mapped from the order items.
+- **[Master data to transactions](examples/foundation-to-transactions.json)**: creates a product, supplier and customer, then a purchase order, purchase invoice (stock in) and sales invoice (stock out), and reads the stock balance.
 - **[New invoice summary](examples/new-invoice-alert.json)**: the trigger watches for new sales invoices and builds a one-line summary to send to Slack, Telegram or email.
 
 ## Limitations

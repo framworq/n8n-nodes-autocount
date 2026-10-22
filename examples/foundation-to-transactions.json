@@ -1,0 +1,257 @@
+{
+  "name": "AutoCount: master data to transactions",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "a41bf8c4-10db-44a9-a351-f920a3528f6a",
+      "name": "When clicking \u2018Execute workflow\u2019",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "product",
+        "operation": "create",
+        "code": "SENSOR-01",
+        "productName": "Smart Sensor",
+        "productType": "I",
+        "additionalFields": {
+          "unit": "PCS",
+          "price": 49,
+          "cost": 20
+        }
+      },
+      "id": "32abf9e2-711b-41fe-84ce-2383bfe3a755",
+      "name": "Create a product",
+      "type": "n8n-nodes-autocount.autoCount",
+      "typeVersion": 1,
+      "position": [
+        220,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "creditor",
+        "operation": "create",
+        "companyName": "Northport Components Sdn Bhd",
+        "creditTerm": "C.O.D.",
+        "additionalFields": {}
+      },
+      "id": "a6fce970-bf5d-407a-b747-68dba9114a70",
+      "name": "Create a supplier",
+      "type": "n8n-nodes-autocount.autoCount",
+      "typeVersion": 1,
+      "position": [
+        440,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "debtor",
+        "operation": "create",
+        "companyName": "Seri Mutiara Trading Sdn Bhd",
+        "creditTerm": "C.O.D.",
+        "additionalFields": {
+          "emailAddress": "accounts@example.com"
+        }
+      },
+      "id": "60ef9a43-1494-494d-82ee-30e730cd39c2",
+      "name": "Create a customer",
+      "type": "n8n-nodes-autocount.autoCount",
+      "typeVersion": 1,
+      "position": [
+        660,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "purchaseOrder",
+        "operation": "create",
+        "partyCode": "={{ $('Create a supplier').item.json.accNo }}",
+        "lines": {
+          "line": [
+            {
+              "productCode": "={{ $('Create a product').item.json.productCode }}",
+              "description": "Smart Sensor",
+              "qty": 20,
+              "unitPrice": 20
+            }
+          ]
+        },
+        "additionalFields": {},
+        "options": {}
+      },
+      "id": "c3623221-d1d0-4f39-9190-a157f48c3ed6",
+      "name": "Create a purchase order",
+      "type": "n8n-nodes-autocount.autoCount",
+      "typeVersion": 1,
+      "position": [
+        880,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "purchaseInvoice",
+        "operation": "create",
+        "partyCode": "={{ $('Create a supplier').item.json.accNo }}",
+        "lines": {
+          "line": [
+            {
+              "accNo": "610-0000",
+              "productCode": "={{ $('Create a product').item.json.productCode }}",
+              "description": "Smart Sensor",
+              "qty": 20,
+              "unitPrice": 20
+            }
+          ]
+        },
+        "additionalFields": {
+          "supplierInvoiceNo": "NC-INV-1001",
+          "ref": "={{ $('Create a purchase order').item.json.docNo }}"
+        },
+        "options": {}
+      },
+      "id": "9c6a3fb4-a3f1-4c0c-8a4a-cd7c92630e2e",
+      "name": "Create a purchase invoice",
+      "type": "n8n-nodes-autocount.autoCount",
+      "typeVersion": 1,
+      "position": [
+        1100,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "invoice",
+        "operation": "create",
+        "partyCode": "={{ $('Create a customer').item.json.accNo }}",
+        "lines": {
+          "line": [
+            {
+              "accNo": "500-0000",
+              "productCode": "={{ $('Create a product').item.json.productCode }}",
+              "description": "Smart Sensor",
+              "qty": 5,
+              "unitPrice": 49
+            }
+          ]
+        },
+        "additionalFields": {},
+        "options": {}
+      },
+      "id": "49dc223a-6374-40c7-833e-0d0b56105d0d",
+      "name": "Create a sales invoice",
+      "type": "n8n-nodes-autocount.autoCount",
+      "typeVersion": 1,
+      "position": [
+        1320,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "product",
+        "operation": "getStockBalance",
+        "code": "={{ $('Create a product').item.json.productCode }}"
+      },
+      "id": "947d0e6a-681a-40ac-8e9c-77ecd6dbf933",
+      "name": "Get stock balance",
+      "type": "n8n-nodes-autocount.autoCount",
+      "typeVersion": 1,
+      "position": [
+        1540,
+        0
+      ]
+    }
+  ],
+  "connections": {
+    "When clicking \u2018Execute workflow\u2019": {
+      "main": [
+        [
+          {
+            "node": "Create a product",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a product": {
+      "main": [
+        [
+          {
+            "node": "Create a supplier",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a supplier": {
+      "main": [
+        [
+          {
+            "node": "Create a customer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a customer": {
+      "main": [
+        [
+          {
+            "node": "Create a purchase order",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a purchase order": {
+      "main": [
+        [
+          {
+            "node": "Create a purchase invoice",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a purchase invoice": {
+      "main": [
+        [
+          {
+            "node": "Create a sales invoice",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a sales invoice": {
+      "main": [
+        [
+          {
+            "node": "Get stock balance",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
