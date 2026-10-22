@@ -6,6 +6,8 @@ Use it to create invoices from your online store, record payments, keep customer
 
 > This is an unofficial, community-maintained integration. It is not made, endorsed or supported by Auto Count Sdn Bhd. "AutoCount" is a trademark of its owner.
 
+Built and maintained by **[Framworq](https://framworq.com)**, an AI automation agency in Malaysia. Need AutoCount or MyInvois e-Invoice workflows built for you? See [AutoCount & e-Invoice automation](https://framworq.com/services/autocount-e-invoice-automation).
+
 [Installation](#installation) · [Credentials](#credentials) · [Operations](#operations) · [Trigger](#trigger) · [How it behaves](#how-it-behaves) · [Examples](#example-workflows) · [Limitations](#limitations) · [Version history](#version-history)
 
 ## Installation
@@ -113,6 +115,12 @@ npm run build
 ## Version history
 
 See [CHANGELOG.md](CHANGELOG.md).
+
+## About Framworq
+
+[Framworq](https://framworq.com) builds AI automation for businesses in Malaysia: n8n workflows, AutoCount and MyInvois e-Invoice integrations, WhatsApp AI chatbots and custom AI agents. No upfront consultation fee. Free discovery and a free tailored proposal.
+
+Found a bug or need an operation that isn't here? [Open an issue](https://github.com/framworq/n8n-nodes-autocount/issues).
 
 ## License
 
