@@ -30,6 +30,7 @@
     "lint": "n8n-node lint",
     "lint:fix": "n8n-node lint --fix",
     "release": "n8n-node release",
+    "test": "n8n-node lint && n8n-node build",
     "prepublishOnly": "n8n-node prerelease"
   },
   "files": [
@@ -58,5 +59,9 @@
   },
   "bugs": {
     "url": "https://github.com/framworq/n8n-nodes-autocount/issues"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
   }
 }
