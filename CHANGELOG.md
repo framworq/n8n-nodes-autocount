@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- README credits Framworq and lists the master-data-to-transactions example.
+- Package no longer ships the TypeScript build cache; author email is john@framworq.com.
+
 ## 0.1.0
 
 First release.
