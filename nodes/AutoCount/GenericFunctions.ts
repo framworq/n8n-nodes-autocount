@@ -78,7 +78,10 @@ export async function autoCountApiRequest(
 		returnFullResponse: extras.returnFullResponse,
 	};
 	if (body !== undefined) {
-		options.body = body;
+		// n8n drops an empty object body and its JSON content type, and AutoCount then answers 415.
+		const isEmptyObject = !Array.isArray(body) && Object.keys(body).length === 0;
+		options.body = isEmptyObject ? '{}' : body;
+		options.headers = { ...options.headers, 'Content-Type': 'application/json' };
 	}
 
 	for (let attempt = 0; ; attempt++) {

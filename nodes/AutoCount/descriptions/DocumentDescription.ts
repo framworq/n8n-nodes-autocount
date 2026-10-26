@@ -265,6 +265,7 @@ const headerJsonField: INodeProperties = {
 
 function operationsFor(doc: DocumentType): INodePropertyOptions[] {
 	const lower = doc.name.toLowerCase();
+	const plural = lower.endsWith('y') ? `${lower.slice(0, -1)}ies` : `${lower}s`;
 	const article = /^[aeiou]/i.test(doc.name) ? 'an' : 'a';
 	const options: INodePropertyOptions[] = [
 		{ name: 'Create', value: 'create', action: `Create ${article} ${lower}`, description: `Create ${article} ${lower}` },
@@ -275,7 +276,7 @@ function operationsFor(doc: DocumentType): INodePropertyOptions[] {
 			description: `Permanently delete ${article} ${lower}. Consider Void instead, which keeps an audit trail.`,
 		},
 		{ name: 'Get', value: 'get', action: `Get ${article} ${lower}`, description: `Get ${article} ${lower} by document number` },
-		{ name: 'Get Many', value: 'getAll', action: `Get many ${lower}s`, description: `List ${lower}s, with optional filters` },
+		{ name: 'Get Many', value: 'getAll', action: `Get many ${plural}`, description: `List ${plural}, with optional filters` },
 		{ name: 'Update', value: 'update', action: `Update ${article} ${lower}`, description: `Update ${article} ${lower}` },
 		{ name: 'Void', value: 'void', action: `Void ${article} ${lower}`, description: `Cancel ${article} ${lower} and keep it on record` },
 	];

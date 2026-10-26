@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Fix: Lookup → Chart of Accounts and the account dropdown failed with HTTP 415. Requests with an empty body now
+  send `{}` as JSON.
+- Fix: operation descriptions said "journal entrys" and "cash book entrys".
 - Verified on n8n Cloud. README shows how to add the node on n8n Cloud (verified community nodes) and on self-hosted n8n.
 - README credits Framworq and lists the master-data-to-transactions example.
 - Package no longer ships the TypeScript build cache; author email is john@framworq.com.
