@@ -1,5 +1,8 @@
 # n8n-nodes-autocount
 
+[![npm version](https://img.shields.io/npm/v/n8n-nodes-autocount)](https://www.npmjs.com/package/n8n-nodes-autocount)
+[![Verified on n8n Cloud](https://img.shields.io/badge/n8n%20Cloud-verified-EA4B71)](#installation)
+
 An [n8n](https://n8n.io/) community node for **[AutoCount Cloud Accounting](https://www.autocountsoft.com/pro-cloud-acc.html)**, the cloud accounting software widely used by businesses in Malaysia.
 
 Use it to create invoices from your online store, record payments, keep customers and products in sync, post journals, and trigger workflows when documents change in AutoCount.
@@ -11,6 +14,14 @@ Built and maintained by **[Framworq](https://framworq.com)**, an AI automation a
 [Installation](#installation) · [Credentials](#credentials) · [Operations](#operations) · [Trigger](#trigger) · [How it behaves](#how-it-behaves) · [Examples](#example-workflows) · [Limitations](#limitations) · [Version history](#version-history)
 
 ## Installation
+
+### n8n Cloud
+
+This is a verified community node, so there is nothing to install. On the canvas, open the nodes panel, search for **AutoCount** and add it to your workflow.
+
+If it doesn't show up, the instance owner or an admin should open the n8n Cloud **Admin Panel**, check that **Verified community nodes** is turned on in the instance settings, then restart the instance. Only owners and admins can install and manage verified community nodes.
+
+### Self-hosted n8n
 
 Follow the [community nodes installation guide](https://docs.n8n.io/integrations/community-nodes/installation/). In n8n: **Settings → Community Nodes → Install**, and enter `n8n-nodes-autocount`.
 
