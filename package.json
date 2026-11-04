@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-autocount",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "n8n community node for AutoCount Cloud Accounting (Malaysia): customers, suppliers, products, sales and purchase documents, payments, journals and stock, plus a polling trigger.",
   "license": "MIT",
   "homepage": "https://github.com/framworq/n8n-nodes-autocount#readme",
