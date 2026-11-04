@@ -45,12 +45,11 @@
 #
 # ─── RELEASE PROCESS ───────────────────────────────────────────────────────────
 #
-# Run the following command locally to start an interactive release:
+# Bump the version in package.json, add the CHANGELOG.md entry by hand, commit,
+# then tag and push (e.g. `git tag 0.2.0 && git push origin main 0.2.0`). This
+# workflow stages the release on npm; approve it on npmjs.com to publish.
 #
-#   npm run release
-#
-# This will lint, build, prompt for a version bump, update the changelog,
-# commit, tag, and push — which triggers this workflow to publish to npm.
+# Don't use `npm run release` locally: it regenerates CHANGELOG.md from commits.
 
 name: Publish
 
@@ -84,16 +83,23 @@ jobs:
       - name: Install dependencies
         run: 'npm ci'
 
-      - name: Release
-        # Publishes to npm with a provenance attestation (requires id-token: write above).
-        # Lint and build run automatically as part of the release process.
-        #
-        # Option A (OIDC): leave NPM_TOKEN unset — the token step is skipped and
-        #   npm uses the OIDC exchange instead.
-        # Option B (token): set NPM_TOKEN in repo secrets — it is written to
-        #   .npmrc here before publishing.
+      - name: Lint and build
+        run: |
+          npm run lint
+          npm run build
+
+      - name: Use an npm that supports staged publishing
+        run: npm install -g npm@12.2.1
+
+      - name: Stage release on npm
+        # Stages the release with a provenance attestation (requires id-token: write above).
+        # Nothing goes live until a maintainer approves it with 2FA on npmjs.com or with
+        # `npm stage approve`. Authenticates with NPM_TOKEN (a granular token without 2FA
+        # bypass) when set, otherwise with OIDC trusted publishing.
         run: |
           [ -n "$NPM_TOKEN" ] && npm config set //registry.npmjs.org/:_authToken "$NPM_TOKEN"
-          npm run release
+          npm stage publish . --provenance
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          # Satisfies the `n8n-node prerelease` guard in prepublishOnly.
+          RELEASE_MODE: 'true'
